@@ -10,11 +10,11 @@ with open(path.join(here, "README.md"), encoding="utf-8") as f:
 
 setup(
     name="django_partial_date",
-    version="1.3.1",
+    version="1.3.2",
     description="Django custom model field for partial dates with the form YYYY, YYYY-MM, YYYY-MM-DD",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/ktowen/django_partial_date",
+    url="https://github.com/jherskovic/django_partial_date",
     author="ktowen",
     author_email="towenpa@gmail.com",
     license="MIT",

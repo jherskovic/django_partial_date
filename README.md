@@ -6,6 +6,7 @@ Django custom model field for partial dates with the form YYYY, YYYY-MM, YYYY-MM
  * Works with DRF
  * Supports comparison operations
  * Supports Django 2.0 and Django 3.0
+ * Provides a Widget and a form control (extremely basic, only supports M-D-Y at the moment because USA)
 
 Usage
 ================
@@ -24,6 +25,19 @@ A django model field for storing partial dates. Accepts None, a partial_date.Par
 ## class partial_date.PartialDate
 
 Object to represent the partial dates.
+
+## class partial_date.PartialDateFormField
+
+A field to add to a form. Rendered as three number inputs; the first and second (Month and Day) can be left blank. Its `clean()` method returns a `PartialDate` object.
+Pass `min_year` or `max_year` to the constructor to set the limits; otherwise they'll default to 1900 and 2099, respectively. 
+
+This is the default control for PartialDateField.
+
+## class partial_data.PartialDateWidget
+
+A widget to render the field above. Can be used by itself, too. Set the `min_year` and `max_year` attrs to override
+the defaults of 1900 and 2099, respectively.
+
 
 ## Example
 

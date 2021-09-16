@@ -8,7 +8,6 @@ from django.core import exceptions
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-
 partial_date_re = re.compile(
     r"^(?P<year>\d{4})(?:-(?P<month>\d{1,2}))?(?:-(?P<day>\d{1,2}))?$"
 )
@@ -170,3 +169,10 @@ class PartialDateField(models.Field):
         return datetime.datetime(
             date.year, date.month, date.day, second=partial_date.precision
         )
+
+    def formfield(self, **kwargs):
+        from .forms import PartialDateFormField
+
+        defaults = {'form_class': PartialDateFormField}
+        defaults.update(kwargs)
+        return super().formfield(**defaults)
