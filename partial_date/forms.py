@@ -1,7 +1,7 @@
 from django import forms
 from django.core.validators import ValidationError
-from .fields import PartialDate
-from .widget import PartialDateWidget
+from partial_date.fields import PartialDate
+from partial_date.widget import PartialDateWidget
 
 
 def vali_date(a_tentative_partial_date_as_a_string):
