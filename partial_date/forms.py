@@ -50,8 +50,9 @@ class PartialDateFormField(forms.MultiValueField):
         if self.required:
             if value is None:
                 raise ValidationError('This field is required.')
-            try:
-                return PartialDate(value)
-            except ValidationError:
-                raise ValidationError("Please enter a complete, valid date in month, day, year "
-                                      "order, or a month and year, or just a year.")
+
+        try:
+            return PartialDate(value)
+        except ValidationError:
+            raise ValidationError("Please enter a complete, valid date in month, day, year "
+                                  "order, or a month and year, or just a year.")
