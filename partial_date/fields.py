@@ -171,7 +171,7 @@ class PartialDateField(models.Field):
         )
 
     def formfield(self, **kwargs):
-        from .forms import PartialDateFormField
+        from partial_date.forms import PartialDateFormField
 
         defaults = {'form_class': PartialDateFormField}
         defaults.update(kwargs)
