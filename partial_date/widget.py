@@ -1,6 +1,7 @@
 import copy
 from datetime import date
 from django import forms
+from partial_date.fields import PartialDate
 
 
 class OptionalNumberInput(forms.TextInput):
@@ -44,6 +45,14 @@ class PartialDateWidget(forms.MultiWidget):
     def decompress(self, value):
         if isinstance(value, date):
             return [value.month, value.day, value.year]
+        elif isinstance(value, PartialDate):
+            month, day = None, None
+            year = value.date.year
+            if value.precisionMonth() or value.precisionDay():
+                month = value.date.month
+            if value.precisionDay():
+                day = value.date.day
+            return [month, day, year]
         elif isinstance(value, str):
             to_unpack = list(reversed(value.split('-')))
             month, day = '', ''
