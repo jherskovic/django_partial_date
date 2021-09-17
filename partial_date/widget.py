@@ -5,11 +5,11 @@ from partial_date.fields import PartialDate
 
 
 class OptionalNumberInput(forms.TextInput):
-    input_type = 'number'
+    input_type = "number"
 
     def get_context(self, name, value, attrs):
         context = super().get_context(name, value, attrs)
-        context['required'] = False
+        context["required"] = False
         return context
 
 
@@ -23,24 +23,36 @@ class PartialDateWidget(forms.MultiWidget):
         month_attrs = copy.copy(my_attrs)
         year_attrs = copy.copy(my_attrs)
 
-        day_attrs.update({'maxlength': 2,
-                     'min': 1,
-                     'max': 31,
-                    })
-        month_attrs.update({'maxlength': 2,
-                       'min': 1,
-                       'max': 12,
-                      })
-        year_attrs.update({'maxlength': 4,
-                      'min': attrs.get('min_year', 1900),
-                      'max': attrs.get('max_year', 2099),
-                      })
-        widgets = [
-            OptionalNumberInput(attrs=month_attrs),
-            OptionalNumberInput(attrs=day_attrs),
-            forms.NumberInput(attrs=year_attrs),
-        ]
-        super().__init__(widgets, attrs)
+        day_attrs.update(
+            {
+                "maxlength": 2,
+                "min": 1,
+                "max": 31,
+                "class": "partial-date-input partial-date-input-day",
+            }
+        )
+        month_attrs.update(
+            {
+                "maxlength": 2,
+                "min": 1,
+                "max": 12,
+                "class": "partial-date-input partial-date-input-month",
+            }
+        )
+        year_attrs.update(
+            {
+                "maxlength": 4,
+                "min": attrs.get("min_year", 1900),
+                "max": attrs.get("max_year", 2099),
+                "class": "partial-date-input partial-date-input-year",
+            }
+        )
+        widgets = {
+            "month": OptionalNumberInput(attrs=month_attrs),
+            "day": OptionalNumberInput(attrs=day_attrs),
+            "year": forms.NumberInput(attrs=year_attrs),
+        }
+        super().__init__(widgets, my_attrs)
 
     def decompress(self, value):
         if isinstance(value, date):
@@ -54,8 +66,8 @@ class PartialDateWidget(forms.MultiWidget):
                 day = value.date.day
             return [month, day, year]
         elif isinstance(value, str):
-            to_unpack = list(reversed(value.split('-')))
-            month, day = '', ''
+            to_unpack = list(reversed(value.split("-")))
+            month, day = "", ""
             year = to_unpack.pop()
             if to_unpack:
                 month = to_unpack.pop()
@@ -78,6 +90,6 @@ class PartialDateWidget(forms.MultiWidget):
         return partial_date_string
 
     def get_context(self, name, value, attrs):
-        attrs['required'] = False
+        attrs["required"] = False
         ctx = super().get_context(name, value, attrs)
         return ctx
