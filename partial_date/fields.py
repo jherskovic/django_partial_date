@@ -106,20 +106,27 @@ class PartialDate(object):
                 params={"value": value},
             )
 
+    # MODIFY FOR DATE COMPARISONS
+
     def __eq__(self, other):
-        if isinstance(other, PartialDate):
+        if isinstance(other, datetime.date):
+            return self.precision == self.DAY and self.date == other
+        elif isinstance(other, PartialDate):
             return self.date == other.date and self.precision == other.precision
         else:
             return NotImplemented
 
     def __gt__(self, other):
-        if isinstance(other, PartialDate):
+        if isinstance(other, PartialDate) or isinstance(other, datetime.date):
             return self.__ge__(other) and not self.__eq__(other)
         else:
             return NotImplemented
 
     def __ge__(self, other):
-        if isinstance(other, PartialDate):
+        if isinstance(other, datetime.date):
+            other_precision = self.DAY
+            return self.date >= other and self.precision >= other_precision
+        elif isinstance(other, PartialDate):
             return self.date >= other.date and self.precision >= other.precision
         else:
             return NotImplemented

@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from datetime import date
-from django.test import TestCase
+from unittest import TestCase
 from partial_date import PartialDate, PartialDateField
 
 
@@ -44,6 +44,11 @@ class PartialDateTestCase(TestCase):
         self.assertFalse(PartialDate("2000-01") == PartialDate("2000"))
         self.assertFalse(PartialDate("2000-01") == PartialDate("2000-01-01"))
 
+    def test_eq_datetime(self):
+        self.assertTrue(PartialDate("2021-07-28") == date(year=2021, month=7, day=28))
+        self.assertFalse(PartialDate("2021-07") == date(year=2021, month=7, day=28))
+        self.assertFalse(PartialDate("2019") == date(year=2019, month=1, day=1))
+
     def test_ne(self):
         self.assertFalse(PartialDate("2000") != PartialDate("2000"))
         self.assertTrue(PartialDate("2001") != PartialDate("2000"))
@@ -55,6 +60,13 @@ class PartialDateTestCase(TestCase):
         self.assertTrue(PartialDate("2001") > PartialDate("2000"))
         self.assertTrue(PartialDate("2000-01") > PartialDate("2000"))
         self.assertFalse(PartialDate("2000-01") > PartialDate("2000-01-01"))
+
+    def test_gt_datetime(self):
+        self.assertTrue(PartialDate("2021-07-11") > date(year=2021, month=7, day=10))
+        self.assertTrue(PartialDate("2021-07-11") > date(year=2021, month=5, day=1))
+        self.assertFalse(PartialDate("2021-07") > date(year=2021, month=5, day=1))
+        self.assertFalse(PartialDate("2019-05-30") > date(year=2021, month=5, day=1))
+        self.assertFalse(PartialDate("2019-05-30") > date(year=2019, month=5, day=30))
 
     def test_lt(self):
         self.assertFalse(PartialDate("2000") < PartialDate("2000"))
