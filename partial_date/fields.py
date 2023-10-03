@@ -6,7 +6,7 @@ import six
 
 from django.core import exceptions
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 partial_date_re = re.compile(
     r"^(?P<year>\d{4})(?:-(?P<month>\d{1,2}))?(?:-(?P<day>\d{1,2}))?$"
