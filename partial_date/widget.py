@@ -79,7 +79,7 @@ class PartialDateWidget(forms.MultiWidget):
     def value_from_datadict(self, data, files, name):
         month, day, year = super().value_from_datadict(data, files, name)
         # DateField expects a single string that it can parse into a date.
-        output = [year]
+        output = [year] if year else []
         if month:
             output.append(month)
         if day:
